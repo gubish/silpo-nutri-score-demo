@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title id="page-title">Товар — Сільпо</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="pdp-body">
+
+  <div class="pdp-header-bar">
+  <header class="header-row">
+    <div class="header-left">
+      <div class="header-brand">
+        <img class="icon-btn" src="assets/burger-menu.svg" alt="Меню" />
+        <img class="logo" src="assets/logo.svg" alt="Сільпо" />
+        <div class="all-goods-pill">
+          <span class="services-icon"><span></span><span></span><span></span><span></span></span>
+          <span class="label">Всі товари</span>
+          <img class="icon-btn" src="assets/expand-more.svg" alt="" />
+        </div>
+      </div>
+      <div class="header-search">
+        <img class="icon-btn" src="assets/search-icon.svg" alt="" />
+        <span>Я шукаю...</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="location">
+        <div class="location-icon-wrap"><img src="assets/location-icon.svg" alt="" /></div>
+        <div class="location-text">
+          <div class="line1">Доставка</div>
+          <div class="line2">Київ, вул. Раїси Окіпної, 7...</div>
+        </div>
+      </div>
+      <div class="profile">
+        <div class="profile-avatar">БА</div>
+        <div class="profile-info">
+          <div class="name">Байрактар А.</div>
+          <div class="balance"><span class="label">Балобонуси:</span><span class="value">33 567</span></div>
+        </div>
+      </div>
+      <button class="header-cart-btn" aria-label="Кошик">
+        <img src="assets/cart-outline.svg" alt="" />
+        <span>Кошик</span>
+      </button>
+    </div>
+
+    <div class="header-row-mobile">
+      <div class="header-mobile-left">
+        <img class="icon-btn" src="assets/burger-menu.svg" alt="Меню" />
+        <img class="logo" src="assets/logo.svg" alt="Сільпо" />
+        <button class="mobile-icon-btn"><img src="assets/search-icon.svg" alt="Пошук" /></button>
+      </div>
+      <div class="header-mobile-right">
+        <div class="location-mobile">
+          <button class="mobile-icon-btn"><img src="assets/location-icon.svg" alt="Доставка" /></button>
+          <span class="location-mobile-text">Київ, вул. Раїси Окіпної, 7...</span>
+        </div>
+        <div class="profile-avatar profile-avatar-mobile">БА</div>
+      </div>
+    </div>
+  </header>
+  </div>
+
+  <div class="pdp-timeslots-bar">
+  <div class="timeslots">
+    <span class="timeslots-label">Привеземо:</span>
+    <div class="chip with-icon"><img src="assets/express-default.svg" alt="" />до 59 хв.</div>
+    <div class="chip selected">10:30 – 12:00<img class="mobile-only-chevron" src="assets/expand-more-down.svg" alt="" /></div>
+    <div class="chip">12:00 – 13:30</div>
+    <div class="chip with-tag">14:00 – 15:30 <span class="tag-pill">360º</span></div>
+    <div class="chip dropdown">Інший час <img src="assets/expand-more-down.svg" alt="" /></div>
+  </div>
+  </div>
+
+  <section class="pdp-hero">
+   <div class="pdp-hero-content">
+    <nav class="pdp-breadcrumbs">
+      <a href="category.html">Головна</a>
+      <img src="assets/breadcrumb-chevron.svg" class="pdp-breadcrumb-chevron" alt="" />
+      <a href="category.html">Здорове харчування</a>
+      <img src="assets/breadcrumb-chevron.svg" class="pdp-breadcrumb-chevron" alt="" />
+      <span class="pdp-crumb-current" id="crumb-current"></span>
+    </nav>
+    <div class="pdp-hero-inner">
+    <div class="pdp-gallery">
+      <div class="pdp-thumbs" id="pdp-thumbs"></div>
+      <div class="pdp-main-photo">
+        <img id="pdp-main-img" src="" alt="" />
+        <div class="pdp-photo-badges" id="pdp-photo-badges"></div>
+        <div class="pdp-photo-nav">
+          <button class="pdp-nav-btn prev"><img src="assets/pdp/pdp-collapse-nav.svg" alt="Попереднє фото" /></button>
+          <button class="pdp-nav-btn next"><img src="assets/pdp/pdp-collapse-nav.svg" alt="Наступне фото" /></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pdp-info">
+      <div class="pdp-details-card">
+        <div class="pdp-title-block">
+          <h1 class="pdp-title" id="pdp-title"></h1>
+          <div class="pdp-rating">
+            <img src="assets/pdp/pdp-star.svg" alt="" />
+            <span id="pdp-rating-text"></span>
+          </div>
+        </div>
+        <div class="pdp-price-buy">
+          <div class="pdp-price-box">
+            <div class="pdp-price" id="pdp-price"></div>
+            <div class="pdp-discount-row" id="pdp-discount-row">
+              <span class="pdp-old-price" id="pdp-old-price"></span>
+              <span class="pdp-discount-tag" id="pdp-discount-tag"></span>
+            </div>
+          </div>
+          <button class="pdp-buy-btn">
+            <img src="assets/pdp/pdp-minus.svg" alt="" />
+            <span>У кошик</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="pdp-accordions-card">
+        <div class="pdp-accordion open">
+          <button class="pdp-accordion-toggle" aria-expanded="true">
+            <span class="pdp-accordion-title">Загальна інформація</span>
+            <img class="pdp-accordion-chevron" src="assets/pdp/pdp-collapse.svg" alt="" />
+          </button>
+          <div class="pdp-accordion-content">
+            <div class="pdp-info-row"><span class="pdp-info-label">Країна</span><span class="pdp-info-value" id="pdp-country"></span></div>
+            <div class="pdp-info-row"><span class="pdp-info-label">Торгова марка</span><span class="pdp-info-value" id="pdp-brand"></span></div>
+            <div class="pdp-info-row"><span class="pdp-info-label">Кількість одиниць</span><span class="pdp-info-value" id="pdp-units"></span></div>
+          </div>
+        </div>
+
+        <div class="pdp-accordion">
+          <button class="pdp-accordion-toggle" aria-expanded="false">
+            <span class="pdp-accordion-title">Опис</span>
+            <img class="pdp-accordion-chevron" src="assets/pdp/pdp-collapse.svg" alt="" />
+          </button>
+          <div class="pdp-accordion-content">
+            <div class="pdp-promo-row">
+              <div class="pdp-promo-text">
+                <p id="pdp-description"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pdp-accordion" id="pdp-promo-accordion">
+          <button class="pdp-accordion-toggle" aria-expanded="false">
+            <span class="pdp-accordion-title">Деталі акції</span>
+            <span class="pdp-accordion-badges" id="pdp-accordion-badges"></span>
+            <img class="pdp-accordion-chevron" src="assets/pdp/pdp-collapse.svg" alt="" />
+          </button>
+          <div class="pdp-accordion-content" id="pdp-promo-rows"></div>
+        </div>
+      </div>
+    </div>
+   </div>
+   </div>
+  </section>
+
+  <section class="pdp-similar">
+    <div class="pdp-similar-header">
+      <h2>Схожі товари</h2>
+      <div class="pdp-similar-nav">
+        <button class="pdp-nav-btn small prev"><img src="assets/pdp/pdp-collapse.svg" alt="Попередні" /></button>
+        <button class="pdp-nav-btn small next"><img src="assets/pdp/pdp-collapse.svg" alt="Наступні" /></button>
+      </div>
+    </div>
+    <div class="pdp-similar-grid" id="pdp-similar-grid"></div>
+  </section>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-top-inner">
+      <div class="footer-columns">
+        <div class="footer-col">
+          <button class="footer-col-toggle" aria-expanded="false">
+            <h3>Замовлення</h3>
+            <img class="footer-chevron" src="assets/footer-chevron.svg" alt="" />
+          </button>
+          <div class="footer-col-links">
+            <a href="#">Формування замовлення</a>
+            <a href="#">Отримання замовлення</a>
+            <a href="#">Зміни у замовленні</a>
+            <a href="#">Правила Інтернет продажів</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <button class="footer-col-toggle" aria-expanded="false">
+            <h3>Для Гостя</h3>
+            <img class="footer-chevron" src="assets/footer-chevron.svg" alt="" />
+          </button>
+          <div class="footer-col-links">
+            <a href="#">Про «Власний рахунок»</a>
+            <a href="#">Правила програми «Власний Рахунок»</a>
+            <a href="#">Запитання та відповіді</a>
+            <a href="#">Cупермаркети</a>
+            <a href="#">Події</a>
+            <a href="#">Ціна тижня</a>
+            <a href="#">Доставка за 1 гривню з Masterсard</a>
+            <a href="#">Подарункові сертифікати</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <button class="footer-col-toggle" aria-expanded="false">
+            <h3>Цікавинки</h3>
+            <img class="footer-chevron" src="assets/footer-chevron.svg" alt="" />
+          </button>
+          <div class="footer-col-links">
+            <a href="#">Екодружність</a>
+            <a href="#">Соціальна турбота</a>
+            <a href="#">«Лавка Традицій»</a>
+            <a href="#">«Власна Коднитерська»</a>
+            <a href="#">«Крафтяр»</a>
+            <a href="#">Друзі «Сільпо»</a>
+            <a href="#">Дизайнерські супермаркети</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <button class="footer-col-toggle" aria-expanded="false">
+            <h3>Про компанію</h3>
+            <img class="footer-chevron" src="assets/footer-chevron.svg" alt="" />
+          </button>
+          <div class="footer-col-links">
+            <a href="#">Робота в «Сільпо»</a>
+            <a href="#">Новини</a>
+            <a href="#">Звітність</a>
+            <a href="#">Контакти</a>
+            <a href="#">Політики компанії</a>
+            <a href="#">Політика конфіденційності</a>
+            <a href="#">Правила безпеки</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-contact-row">
+        <div class="footer-call">
+          <span class="call-label">Гаряча лінія у межах України</span>
+          <span class="call-value"><img src="assets/phone-icon.svg" alt="" /><span>0 800 301 707</span></span>
+          <span class="footer-mail"><img src="assets/mail-icon.svg" alt="" /><span>program@silpo.ua</span></span>
+        </div>
+        <div class="footer-call">
+          <span class="call-label">Для дзвінків з-за кордону</span>
+          <span class="call-value"><img src="assets/phone-icon.svg" alt="" /><span>+38 044 496 32 38</span></span>
+        </div>
+        <div class="footer-app">
+          <img src="assets/logo-app.png" alt="Сільпо застосунок" />
+          <div>
+            <div class="app-download">Завантажити</div>
+            <div class="app-name">Мобільний застосунок</div>
+          </div>
+        </div>
+        <div class="footer-social">
+          <span>Сільпо у соціальних мережах</span>
+          <div class="icons">
+            <span class="social-icon instagram"><img src="assets/social-instagram-glyph.svg" alt="Instagram" /></span>
+            <span class="social-icon facebook"><img src="assets/social-facebook-glyph.svg" alt="Facebook" /></span>
+            <span class="social-icon viber"><img src="assets/social-viber-glyph.svg" alt="Viber" /></span>
+            <span class="social-icon telegram"><img src="assets/social-fourth.svg" alt="Telegram" /></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom-inner"><span>© Silpo, 2024</span></div>
+  </div>
+</footer>
+
+<div class="pdp-sticky-bar">
+  <div class="pdp-price-box">
+    <div class="pdp-price" id="sticky-price"></div>
+    <div class="pdp-discount-row" id="sticky-discount-row">
+      <span class="pdp-old-price" id="sticky-old-price"></span>
+      <span class="pdp-discount-tag" id="sticky-discount-tag"></span>
+    </div>
+  </div>
+  <button class="pdp-buy-btn">
+    <img src="assets/pdp/pdp-minus.svg" alt="" />
+    <span>У кошик</span>
+  </button>
+</div>
+
+<div class="pdp-cart-bubble">
+  <span class="pdp-cart-icon-wrap">
+    <img src="assets/pdp/cart-icon.svg" alt="" />
+    <span class="pdp-cart-badge">6</span>
+  </span>
+  <span class="pdp-cart-total">123.00 грн</span>
+</div>
+
+<script src="common.js"></script>
+<script src="products.js"></script>
+<script src="pdp.js"></script>
+</body>
+</html>
