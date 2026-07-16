@@ -1,3 +1,8 @@
+const NUTRI_SCORE_DESCRIPTIONS = {
+  A: "Nutri-Score A — найвища харчова якість продукту",
+  D: "Nutri-Score D — нижче середньої харчова якість продукту",
+};
+
 function badgesHtml(product) {
   const items = (product.badges || [])
     .map((key) => BADGES[key])
@@ -5,6 +10,26 @@ function badgesHtml(product) {
     .map((b) => `<img class="product-badge" src="${b.src}" alt="${b.alt}" />`)
     .join("");
   return items ? `<div class="product-badges">${items}</div>` : "";
+}
+
+function nutriScoreHtml(product) {
+  if (!product.nutriScore) return "";
+  const grade = product.nutriScore.toLowerCase();
+  const tooltip = NUTRI_SCORE_DESCRIPTIONS[product.nutriScore] || `Nutri-Score ${product.nutriScore}`;
+  return `<span class="has-tooltip" data-tooltip="${tooltip}" tabindex="0"><img class="nutri-score-badge" src="assets/nutri-score/nutri-score-small-${grade}.svg" alt="Nutri-Score ${product.nutriScore}" /></span>`;
+}
+
+function productTagsHtml(product) {
+  const items = (product.tags || [])
+    .slice(0, 2)
+    .map((key) => TAG_META[key])
+    .filter(Boolean)
+    .map(
+      (tag) =>
+        `<span class="has-tooltip listing-tag" data-tooltip="${tag.label}" tabindex="0"><span class="listing-tag-code">${tag.code}</span></span>`
+    )
+    .join("");
+  return items ? `<div class="listing-tags">${items}</div>` : "";
 }
 
 function counterHtml(product) {
@@ -40,9 +65,15 @@ function cardHtml(product) {
           <div class="product-price">${product.price} ₴</div>
           ${discount}
         </div>
-        <p class="product-name">${product.name}</p>
-        <div class="product-meta">
+        <div class="product-title">
+          <p class="product-name">${product.name}</p>
           <span class="product-weight">${product.weight} ${product.unit || "г"}</span>
+        </div>
+        <div class="product-meta">
+          <div class="product-diet-badges">
+            ${nutriScoreHtml(product)}
+            ${productTagsHtml(product)}
+          </div>
           <span class="product-rating">
             <img src="assets/star.svg" alt="" />
             <span>${product.rating}</span>

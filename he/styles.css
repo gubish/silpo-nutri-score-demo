@@ -568,13 +568,11 @@ button {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 16.8px;
-  margin-bottom: 16px;
+  margin-bottom: 32px;
 }
 .product-card {
   width: auto;
-  border-radius: 8px;
   background: #ffffff;
-  overflow: hidden;
 }
 .product-image {
   position: relative;
@@ -694,6 +692,10 @@ button {
   line-height: 16px;
   color: #ffffff;
 }
+.product-title {
+  display: flex;
+  flex-direction: column;
+}
 .product-name {
   font-size: 18px;
   line-height: 1.3;
@@ -709,6 +711,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
 }
 .product-weight {
   font-weight: 600;
@@ -720,6 +723,7 @@ button {
   display: flex;
   align-items: center;
   gap: 2px;
+  flex-shrink: 0;
 }
 .product-rating img {
   width: 14px;
@@ -730,6 +734,90 @@ button {
   font-size: 16px;
   line-height: 1.4;
   color: var(--gray-87);
+}
+
+.product-diet-badges {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+.listing-tags {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.listing-tag {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #e4e5ed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.listing-tag-code {
+  font-weight: 500;
+  font-size: 9px;
+  letter-spacing: -0.1px;
+  color: #000000;
+}
+.listing-tag.lg {
+  width: 28px;
+  height: 28px;
+}
+.listing-tag.lg .listing-tag-code {
+  font-size: 10px;
+}
+
+/* ===== Nutri-Score ===== */
+.nutri-score-badge {
+  height: 30px;
+  width: auto;
+  flex-shrink: 0;
+}
+.nutri-score-badge-square {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* ===== Badge tooltips ===== */
+.has-tooltip {
+  position: relative;
+  display: inline-flex;
+  outline: none;
+}
+.has-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translate(-50%, 4px);
+  width: max-content;
+  max-width: 200px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(32, 33, 36, 0.92);
+  color: #ffffff;
+  font-family: var(--font-proxima);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.35;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 30;
+}
+.has-tooltip:hover::after,
+.has-tooltip:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
 }
 
 /* ===== Show more + Pagination ===== */
@@ -1300,6 +1388,8 @@ button {
 .pdp-accordion-badges img {
   width: 24px;
   height: 24px;
+  min-width: 24px;
+  min-height: 24px;
   margin-right: -4px;
   border-radius: 100px;
   border: 1.5px solid #ffffff;
@@ -1354,6 +1444,126 @@ button {
 .pdp-promo-dates {
   font-weight: 600;
   color: rgba(32, 33, 36, 0.87);
+}
+
+/* ===== PDP nutrients card ===== */
+.pdp-nutrients-card {
+  background: #ffffff;
+  width: 100%;
+  border-radius: 18px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.pdp-nutrients-title {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.3;
+  color: rgba(32, 33, 36, 0.87);
+}
+.pdp-nutrients-table {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+.pdp-nutrients-value {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pdp-nutrients-label {
+  font-size: 14px;
+  line-height: 1.4;
+  color: rgba(32, 33, 36, 0.6);
+}
+.pdp-nutrients-amount {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+.pdp-nutrients-score-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding-top: 16px;
+  border-top: 1px solid rgba(19, 19, 30, 0.08);
+}
+.pdp-nutrients-score-icon {
+  flex-shrink: 0;
+}
+.pdp-nutrients-score-icon.square {
+  width: 48px;
+  height: 48px;
+}
+.pdp-nutrients-score-icon.pill {
+  height: 56px;
+  width: auto;
+}
+.pdp-nutrients-score-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+  min-width: 0;
+}
+.pdp-nutrients-score-title {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+.pdp-nutrients-score-desc {
+  font-size: 14px;
+  line-height: 1.4;
+  color: rgba(32, 33, 36, 0.6);
+}
+.pdp-nutrients-score-link {
+  color: var(--blue-500);
+  text-decoration: none;
+}
+.pdp-nutrients-score-link:hover {
+  text-decoration: underline;
+}
+.pdp-nutrients-tags-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  width: 100%;
+  padding-top: 16px;
+  border-top: 1px solid rgba(19, 19, 30, 0.08);
+}
+.pdp-nutrients-tag {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 48px;
+  flex-shrink: 0;
+}
+.pdp-nutrients-tag-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 24px;
+  background: #e4e5ed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: -0.12px;
+  color: #000000;
+}
+.pdp-nutrients-tag-label {
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: -0.12px;
+  line-height: 1.17;
+  color: var(--text-primary);
+  text-align: center;
 }
 
 .pdp-similar {

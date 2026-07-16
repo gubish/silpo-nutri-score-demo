@@ -77,9 +77,9 @@
   <section class="pdp-hero">
    <div class="pdp-hero-content">
     <nav class="pdp-breadcrumbs">
-      <a href="category.html">Головна</a>
+      <a href="index.html">Головна</a>
       <img src="assets/breadcrumb-chevron.svg" class="pdp-breadcrumb-chevron" alt="" />
-      <a href="category.html">Здорове харчування</a>
+      <a href="index.html">Здорове харчування</a>
       <img src="assets/breadcrumb-chevron.svg" class="pdp-breadcrumb-chevron" alt="" />
       <span class="pdp-crumb-current" id="crumb-current"></span>
     </nav>
@@ -123,18 +123,6 @@
       <div class="pdp-accordions-card">
         <div class="pdp-accordion open">
           <button class="pdp-accordion-toggle" aria-expanded="true">
-            <span class="pdp-accordion-title">Загальна інформація</span>
-            <img class="pdp-accordion-chevron" src="assets/pdp/pdp-collapse.svg" alt="" />
-          </button>
-          <div class="pdp-accordion-content">
-            <div class="pdp-info-row"><span class="pdp-info-label">Країна</span><span class="pdp-info-value" id="pdp-country"></span></div>
-            <div class="pdp-info-row"><span class="pdp-info-label">Торгова марка</span><span class="pdp-info-value" id="pdp-brand"></span></div>
-            <div class="pdp-info-row"><span class="pdp-info-label">Кількість одиниць</span><span class="pdp-info-value" id="pdp-units"></span></div>
-          </div>
-        </div>
-
-        <div class="pdp-accordion">
-          <button class="pdp-accordion-toggle" aria-expanded="false">
             <span class="pdp-accordion-title">Опис</span>
             <img class="pdp-accordion-chevron" src="assets/pdp/pdp-collapse.svg" alt="" />
           </button>
@@ -147,6 +135,18 @@
           </div>
         </div>
 
+        <div class="pdp-accordion">
+          <button class="pdp-accordion-toggle" aria-expanded="false">
+            <span class="pdp-accordion-title">Загальна інформація</span>
+            <img class="pdp-accordion-chevron" src="assets/pdp/pdp-collapse.svg" alt="" />
+          </button>
+          <div class="pdp-accordion-content">
+            <div class="pdp-info-row"><span class="pdp-info-label">Країна</span><span class="pdp-info-value" id="pdp-country"></span></div>
+            <div class="pdp-info-row"><span class="pdp-info-label">Торгова марка</span><span class="pdp-info-value" id="pdp-brand"></span></div>
+            <div class="pdp-info-row"><span class="pdp-info-label">Кількість одиниць</span><span class="pdp-info-value" id="pdp-units"></span></div>
+          </div>
+        </div>
+
         <div class="pdp-accordion" id="pdp-promo-accordion">
           <button class="pdp-accordion-toggle" aria-expanded="false">
             <span class="pdp-accordion-title">Деталі акції</span>
@@ -155,6 +155,30 @@
           </button>
           <div class="pdp-accordion-content" id="pdp-promo-rows"></div>
         </div>
+      </div>
+
+      <div class="pdp-nutrients-card">
+        <p class="pdp-nutrients-title">Харчова цінність на 100 г</p>
+        <div class="pdp-nutrients-table">
+          <div class="pdp-nutrients-value">
+            <span class="pdp-nutrients-label">Енергетична цінність</span>
+            <span class="pdp-nutrients-amount" id="pdp-nutrients-energy"></span>
+          </div>
+          <div class="pdp-nutrients-value">
+            <span class="pdp-nutrients-label">Білки</span>
+            <span class="pdp-nutrients-amount" id="pdp-nutrients-protein"></span>
+          </div>
+          <div class="pdp-nutrients-value">
+            <span class="pdp-nutrients-label">Жири</span>
+            <span class="pdp-nutrients-amount" id="pdp-nutrients-fat"></span>
+          </div>
+          <div class="pdp-nutrients-value">
+            <span class="pdp-nutrients-label">Вуглеводи</span>
+            <span class="pdp-nutrients-amount" id="pdp-nutrients-carbs"></span>
+          </div>
+        </div>
+        <div class="pdp-nutrients-score-row" id="pdp-nutrients-score-row"></div>
+        <div class="pdp-nutrients-tags-row" id="pdp-nutrients-tags"></div>
       </div>
     </div>
    </div>

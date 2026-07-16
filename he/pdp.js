@@ -4,6 +4,50 @@ function getProductFromUrl() {
   return PRODUCTS.find((p) => p.slug === id) || PRODUCTS[0];
 }
 
+const NUTRI_SCORE_TITLES = {
+  A: "Висока поживна цінність",
+  D: "Помірна поживна цінність",
+};
+
+const NUTRIENT_TAGS = {
+  "sugar-free": { code: "БЦ", label: "Без цукру" },
+  "nut-allergen": { code: "АГ", label: "Алерген<br>Горіх" },
+  vegan: { code: "В", label: "Веган" },
+  "gluten-free": { code: "БГ", label: "Без<br>глютену" },
+  "lactose-free": { code: "БЛ", label: "Без<br>лактози" },
+  organic: { code: "ОР", label: "Органічний" },
+  "high-protein": { code: "БІ", label: "Багато<br>білка" },
+};
+
+function nutrientsScoreRowHtml(product) {
+  if (!product.nutriScore) return "";
+  const grade = product.nutriScore.toLowerCase();
+  const iconSrc = `assets/nutri-score/nutri-score-big-${grade}.svg`;
+  const iconClass = "pill";
+  const title = NUTRI_SCORE_TITLES[product.nutriScore] || `Nutri-Score ${product.nutriScore}`;
+
+  return `
+    <img class="pdp-nutrients-score-icon ${iconClass}" src="${iconSrc}" alt="Nutri-Score ${product.nutriScore}" />
+    <div class="pdp-nutrients-score-text">
+      <p class="pdp-nutrients-score-title">${title}</p>
+      <p class="pdp-nutrients-score-desc">Nutri-Score – це візуальне представлення таблиці харчової цінності. <a href="https://silpo.ua/about/nutri-score-vash-svidomyj-vybir" target="_blank" rel="noopener noreferrer" class="pdp-nutrients-score-link">Більше про Nutri-Score</a></p>
+    </div>`;
+}
+
+function nutrientsTagsHtml(product) {
+  return (product.tags || [])
+    .map((key) => NUTRIENT_TAGS[key])
+    .filter(Boolean)
+    .map(
+      (tag) => `
+      <div class="pdp-nutrients-tag">
+        <span class="pdp-nutrients-tag-icon">${tag.code}</span>
+        <span class="pdp-nutrients-tag-label">${tag.label}</span>
+      </div>`
+    )
+    .join("");
+}
+
 function similarCardHtml(product) {
   const discount = product.oldPrice
     ? `<div class="pdp-similar-discount">
@@ -105,6 +149,15 @@ document.getElementById("pdp-description").textContent = product.description;
 if (!productBadges.length) {
   document.getElementById("pdp-promo-accordion").style.display = "none";
 }
+
+document.getElementById("pdp-nutrients-energy").textContent = `${product.nutrition.kcal} кКал / ${product.nutrition.kj} кДЖ`;
+document.getElementById("pdp-nutrients-protein").textContent = `${product.nutrition.protein} г`;
+document.getElementById("pdp-nutrients-fat").textContent = `${product.nutrition.fat} г`;
+document.getElementById("pdp-nutrients-carbs").textContent = `${product.nutrition.carbs} г`;
+document.getElementById("pdp-nutrients-score-row").innerHTML = nutrientsScoreRowHtml(product);
+const nutrientsTagsRow = document.getElementById("pdp-nutrients-tags");
+nutrientsTagsRow.innerHTML = nutrientsTagsHtml(product);
+nutrientsTagsRow.style.display = (product.tags || []).length ? "" : "none";
 
 const similar = PRODUCTS.filter((p) => p.slug !== product.slug)
   .sort(() => Math.random() - 0.5)
