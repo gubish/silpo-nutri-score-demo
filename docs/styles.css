@@ -1133,6 +1133,9 @@ button {
   max-width: 775px;
   flex-shrink: 1;
   min-width: 0;
+  position: sticky;
+  top: 83px;
+  align-self: flex-start;
 }
 .pdp-thumbs {
   display: flex;
@@ -1490,8 +1493,6 @@ button {
   align-items: center;
   gap: 16px;
   width: 100%;
-  padding-top: 16px;
-  border-top: 1px solid rgba(19, 19, 30, 0.08);
 }
 .pdp-nutrients-score-icon {
   flex-shrink: 0;
@@ -1996,6 +1997,7 @@ button {
     max-width: none;
     flex-direction: column;
     gap: 8px;
+    position: static;
   }
   .pdp-info {
     width: 100%;

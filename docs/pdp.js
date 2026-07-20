@@ -10,13 +10,13 @@ const NUTRI_SCORE_TITLES = {
 };
 
 const NUTRIENT_TAGS = {
-  "sugar-free": { code: "БЦ", label: "Без цукру" },
-  "nut-allergen": { code: "АГ", label: "Алерген<br>Горіх" },
   vegan: { code: "В", label: "Веган" },
-  "gluten-free": { code: "БГ", label: "Без<br>глютену" },
-  "lactose-free": { code: "БЛ", label: "Без<br>лактози" },
   organic: { code: "ОР", label: "Органічний" },
+  "lactose-free": { code: "БЛ", label: "Без<br>лактози" },
+  "gluten-free": { code: "БГ", label: "Без<br>глютену" },
   "high-protein": { code: "БІ", label: "Багато<br>білка" },
+  "high-fiber": { code: "КЛ", label: "Багато<br>клітковини" },
+  "no-added-sugar": { code: "БЦ", label: "Без доданого<br>цукру" },
 };
 
 function nutrientsScoreRowHtml(product) {

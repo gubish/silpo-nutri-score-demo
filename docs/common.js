@@ -35,3 +35,20 @@ document.querySelectorAll(".footer-col-toggle").forEach((toggle) => {
     toggle.parentElement.classList.toggle("open", !expanded);
   });
 });
+
+// Cart button doubles as a quick switcher between the pill and square
+// Nutri-Score demo variants, preserving the current page type and product id.
+const cartBtn = document.querySelector(".header-cart-btn");
+if (cartBtn) {
+  const DEMO_SWAP = {
+    "index.html": "index-2.html",
+    "index-2.html": "index.html",
+    "product.html": "product-2.html",
+    "product-2.html": "product.html",
+  };
+  cartBtn.addEventListener("click", () => {
+    const path = window.location.pathname;
+    const current = Object.keys(DEMO_SWAP).find((name) => path.endsWith(name)) || "index.html";
+    window.location.href = DEMO_SWAP[current] + window.location.search;
+  });
+}
