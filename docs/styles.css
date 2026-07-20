@@ -390,6 +390,7 @@ button {
   align-items: center;
   justify-content: center;
   padding: 16px;
+  cursor: pointer;
 }
 .main-banner img.bg {
   position: absolute;
@@ -1174,6 +1175,7 @@ button {
   flex: 1 1 0;
   min-width: 0;
   background: #ffffff;
+  cursor: pointer;
 }
 .pdp-main-photo > img {
   width: 100%;
