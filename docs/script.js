@@ -16,7 +16,7 @@ function nutriScoreHtml(product) {
   if (!product.nutriScore) return "";
   const grade = product.nutriScore.toLowerCase();
   const tooltip = NUTRI_SCORE_DESCRIPTIONS[product.nutriScore] || `Nutri-Score ${product.nutriScore}`;
-  return `<span class="has-tooltip" data-tooltip="${tooltip}" tabindex="0"><img class="nutri-score-badge" src="assets/nutri-score/nutri-score-small-${grade}.svg" alt="Nutri-Score ${product.nutriScore}" /></span>`;
+  return `<span class="has-tooltip" data-tooltip="${tooltip}" tabindex="0"><img class="nutri-score-badge" src="assets/nutri-score/nutri-score-big-${grade}.svg" alt="Nutri-Score ${product.nutriScore}" /></span>`;
 }
 
 function productTagsHtml(product) {
@@ -24,9 +24,10 @@ function productTagsHtml(product) {
     .slice(0, 2)
     .map((key) => TAG_META[key])
     .filter(Boolean)
-    .map(
-      (tag) =>
-        `<span class="has-tooltip listing-tag" data-tooltip="${tag.label}" tabindex="0"><span class="listing-tag-code">${tag.code}</span></span>`
+    .map((tag) =>
+      tag.icon
+        ? `<span class="has-tooltip listing-tag" data-tooltip="${tag.label}" tabindex="0"><span class="listing-tag-icon-wrap"><img class="listing-tag-icon" src="${tag.icon}" alt="${tag.label}" /></span></span>`
+        : `<span class="has-tooltip listing-tag" data-tooltip="${tag.label}" tabindex="0"><span class="listing-tag-code">${tag.code}</span></span>`
     )
     .join("");
   return items ? `<div class="listing-tags">${items}</div>` : "";
@@ -58,6 +59,7 @@ function cardHtml(product) {
       <div class="product-image">
         <img class="photo" src="assets/products/${product.img}.${product.ext || "svg"}" alt="${product.name}" />
         ${badges}
+        <div class="product-nutriscore-overlay">${nutriScoreHtml(product)}</div>
         ${counterHtml(product)}
       </div>
       <div class="product-content">
@@ -71,7 +73,6 @@ function cardHtml(product) {
         </div>
         <div class="product-meta">
           <div class="product-diet-badges">
-            ${nutriScoreHtml(product)}
             ${productTagsHtml(product)}
           </div>
           <span class="product-rating">

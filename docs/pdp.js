@@ -10,13 +10,13 @@ const NUTRI_SCORE_TITLES = {
 };
 
 const NUTRIENT_TAGS = {
-  vegan: { code: "В", label: "Веган" },
-  organic: { code: "ОР", label: "Органічний" },
-  "lactose-free": { code: "БЛ", label: "Без<br>лактози" },
-  "gluten-free": { code: "БГ", label: "Без<br>глютену" },
+  vegan: { code: "В", label: "Веган", icon: "assets/tags/vegan.svg" },
+  organic: { code: "ОР", label: "Органічний", icon: "assets/tags/organic.svg" },
+  "lactose-free": { code: "БЛ", label: "Без<br>лактози", icon: "assets/tags/lactose-free.svg" },
+  "gluten-free": { code: "БГ", label: "Без<br>глютену", icon: "assets/tags/gluten-free.svg" },
   "high-protein": { code: "БІ", label: "Багато<br>білка" },
   "high-fiber": { code: "КЛ", label: "Багато<br>клітковини" },
-  "no-added-sugar": { code: "БЦ", label: "Без доданого<br>цукру" },
+  "no-added-sugar": { code: "БЦ", label: "Без доданого<br>цукру", icon: "assets/tags/no-added-sugar.svg" },
 };
 
 function nutrientsScoreRowHtml(product) {
@@ -41,7 +41,11 @@ function nutrientsTagsHtml(product) {
     .map(
       (tag) => `
       <div class="pdp-nutrients-tag">
-        <span class="pdp-nutrients-tag-icon">${tag.code}</span>
+        ${
+          tag.icon
+            ? `<img class="pdp-nutrients-tag-icon" src="${tag.icon}" alt="" />`
+            : `<span class="pdp-nutrients-tag-icon">${tag.code}</span>`
+        }
         <span class="pdp-nutrients-tag-label">${tag.label}</span>
       </div>`
     )

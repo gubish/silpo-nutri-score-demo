@@ -751,8 +751,8 @@ button {
   flex-shrink: 0;
 }
 .listing-tag {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: #e4e5ed;
   display: flex;
@@ -762,9 +762,31 @@ button {
 }
 .listing-tag-code {
   font-weight: 500;
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: -0.1px;
   color: #000000;
+}
+.listing-tag-icon-wrap {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.listing-tag-icon {
+  display: block;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  max-width: none;
+  margin: -1px;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+.listing-tag-icon[src$="organic.svg"] {
+  /* The organic glyph's bounding box sits ~25px right of the source
+     canvas's own center, so a plain center-crop crops it off-balance;
+     shift the crop window to center on the glyph itself instead. */
+  object-position: 56.3% 50%;
 }
 /* ===== Listing plated cards (index-2.html, index-3.html) ===== */
 /* Full-bleed grey band from the banner through "Показати ще", regardless of
@@ -910,6 +932,20 @@ button {
   height: 28px;
   width: auto;
   flex-shrink: 0;
+}
+.listing-classic .nutri-score-badge {
+  height: 40px;
+}
+.listing-classic .product-image {
+  overflow: visible;
+}
+.listing-classic .product-image img.photo {
+  border-radius: 8px;
+}
+.listing-classic .product-nutriscore-overlay {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
 }
 
 /* ===== Badge tooltips ===== */
@@ -1682,6 +1718,10 @@ button {
   font-size: 12px;
   letter-spacing: -0.12px;
   color: #000000;
+}
+img.pdp-nutrients-tag-icon {
+  background: none;
+  object-fit: cover;
 }
 .pdp-nutrients-tag-label {
   font-weight: 500;

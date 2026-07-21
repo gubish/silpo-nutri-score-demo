@@ -9,13 +9,13 @@
 // and the product page's labelled tag row) — code letters + a plain-text
 // label for tooltips/captions.
 const TAG_META = {
-  vegan: { code: "В", label: "Веган" },
-  organic: { code: "ОР", label: "Органічний" },
-  "lactose-free": { code: "БЛ", label: "Без лактози" },
-  "gluten-free": { code: "БГ", label: "Без глютену" },
+  vegan: { code: "В", label: "Веган", icon: "assets/tags/vegan.svg" },
+  organic: { code: "ОР", label: "Органічний", icon: "assets/tags/organic.svg" },
+  "lactose-free": { code: "БЛ", label: "Без лактози", icon: "assets/tags/lactose-free.svg" },
+  "gluten-free": { code: "БГ", label: "Без глютену", icon: "assets/tags/gluten-free.svg" },
   "high-protein": { code: "БІ", label: "Багато білка" },
   "high-fiber": { code: "КЛ", label: "Багато клітковини" },
-  "no-added-sugar": { code: "БЦ", label: "Без доданого цукру" },
+  "no-added-sugar": { code: "БЦ", label: "Без доданого цукру", icon: "assets/tags/no-added-sugar.svg" },
 };
 
 const PRODUCTS = [
