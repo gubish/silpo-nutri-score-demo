@@ -45,7 +45,7 @@ function similarCardHtml(product) {
     : "";
 
   return `
-    <a class="pdp-similar-card" href="product-2.html?id=${product.slug}" style="text-decoration:none;color:inherit">
+    <a class="pdp-similar-card" href="product-3.html?id=${product.slug}" style="text-decoration:none;color:inherit">
       <div class="pdp-similar-image">
         <img class="photo" src="assets/products/${product.img}.${product.ext || "svg"}" alt="${product.name}" />
         ${badge}

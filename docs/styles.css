@@ -573,6 +573,7 @@ button {
 }
 .product-card {
   width: auto;
+  min-width: 0;
   background: #ffffff;
 }
 .product-image {
@@ -670,7 +671,7 @@ button {
   display: flex;
   align-items: center;
   gap: 4px;
-  width: 174px;
+  max-width: 174px;
   margin-top: 4px;
 }
 .old-price {
@@ -765,23 +766,149 @@ button {
   letter-spacing: -0.1px;
   color: #000000;
 }
-.listing-tag.lg {
-  width: 28px;
-  height: 28px;
+/* ===== Listing plated cards (index-2.html, index-3.html) ===== */
+/* Full-bleed grey band from the banner through "Показати ще", regardless of
+   the .page 1440px column — same breakout technique as .header-row::after. */
+/* Full-bleed white sticky header bar: a direct child of body (like
+   .pdp-header-bar on the PDP), so it isn't constrained by .page's 1440px
+   column and the grey band scrolling underneath never shows through it. */
+.listing-header-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  width: 100%;
+  background: #ffffff;
 }
-.listing-tag.lg .listing-tag-code {
-  font-size: 10px;
+.listing-grey-band {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background: var(--blue-50);
+}
+.listing-grey-band-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+.listing-plated .banners,
+.listing-plated .category-chips {
+  background: transparent;
+}
+.listing-plated .product-row {
+  gap: 8px;
+  margin-bottom: 8px;
+}
+@media (min-width: 1024px) {
+  .listing-plated .product-row {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+.listing-plated .show-more-btn,
+.listing-plated .page-btn {
+  background: none;
+}
+.listing-plated .pagination {
+  padding-bottom: 32px;
+}
+.listing-plated .also-searching {
+  padding-top: 40px;
+}
+.listing-plated .product-badges {
+  left: 4px;
+  top: 4px;
+}
+.listing-plated .product-nutriscore-overlay {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+.listing-plated .product-image {
+  overflow: visible;
+}
+.listing-plated .product-image img.photo {
+  border-radius: 8px;
+}
+.listing-plated .product-tags-rating {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.listing-plated .listing-tags {
+  flex-wrap: wrap;
+}
+.listing-plated .listing-tag {
+  width: auto;
+  height: auto;
+  min-width: 0;
+  padding: 3px 6px;
+  border-radius: 4px;
+  background: var(--additional-100);
+  font-size: 12px;
+  font-weight: 500;
+  color: #000000;
+  text-align: center;
+}
+.listing-plated .product-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+.listing-plated .product-content {
+  flex: 1;
+}
+.listing-plated .product-tags-rating {
+  margin-top: auto;
+}
+.listing-plated .product-price {
+  font-size: 20px;
+}
+.listing-plated .product-name {
+  font-size: 16px;
+}
+.listing-plated .old-price,
+.listing-plated .discount-tag,
+.listing-plated .product-weight,
+.listing-plated .product-rating span {
+  font-size: 14px;
+}
+
+/* ===== Listing plated cards, Nutri-Score moved below the fold
+   (index-3.html only) — Nutri-Score on its own labelled row, tags and
+   rating on the row below, both under a light grey divider instead of
+   overlaying the photo. ===== */
+.listing-nutriscore-bottom .product-nutri-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+  border-top: 1px solid rgba(19, 19, 30, 0.08);
+  padding-top: 8px;
+}
+.listing-nutriscore-bottom .product-tags-rating {
+  margin-top: 0;
+}
+.listing-nutriscore-bottom .product-nutriscore-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.listing-nutriscore-bottom .product-nutriscore-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(32, 33, 36, 0.6);
 }
 
 /* ===== Nutri-Score ===== */
 .nutri-score-badge {
-  height: 30px;
+  height: 28px;
   width: auto;
-  flex-shrink: 0;
-}
-.nutri-score-badge-square {
-  width: 24px;
-  height: 24px;
   flex-shrink: 0;
 }
 
@@ -1499,10 +1626,6 @@ button {
 .pdp-nutrients-score-icon {
   flex-shrink: 0;
 }
-.pdp-nutrients-score-icon.square {
-  width: 48px;
-  height: 48px;
-}
 .pdp-nutrients-score-icon.pill {
   height: 56px;
   width: auto;
@@ -1567,6 +1690,24 @@ button {
   line-height: 1.17;
   color: var(--text-primary);
   text-align: center;
+}
+
+/* Plated PDP (product-2.html): nutrient tags as full-text pills, like the
+   plated listing's .listing-tag but a size up. */
+.pdp-plated .pdp-nutrients-tags-row {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pdp-plated .pdp-nutrients-tag {
+  width: auto;
+  height: auto;
+  flex-direction: row;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: var(--additional-100);
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
 }
 
 .pdp-similar {
@@ -2150,7 +2291,8 @@ button {
   .product-row {
     grid-template-columns: repeat(2, 1fr);
   }
-  .product-name {
+  .product-name,
+  .listing-plated .product-name {
     font-size: 14px;
     line-height: 1.25;
     max-height: 36px;

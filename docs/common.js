@@ -37,19 +37,17 @@ document.querySelectorAll(".footer-col-toggle").forEach((toggle) => {
 });
 
 // The listing's main banner (or, on a product page, the main product photo)
-// doubles as a quick switcher between the pill and square Nutri-Score demo
-// variants, preserving the current product id.
+// doubles as a quick switcher that cycles through the demo variants in
+// order (1 → 2 → 3 → 1 → …), preserving the current product id.
 const demoSwitchTrigger = document.querySelector(".main-banner, .pdp-main-photo");
 if (demoSwitchTrigger) {
-  const DEMO_SWAP = {
-    "index.html": "index-2.html",
-    "index-2.html": "index.html",
-    "product.html": "product-2.html",
-    "product-2.html": "product.html",
-  };
+  const LISTING_CYCLE = ["index.html", "index-2.html", "index-3.html"];
+  const PRODUCT_CYCLE = ["product.html", "product-2.html", "product-3.html"];
   demoSwitchTrigger.addEventListener("click", () => {
     const path = window.location.pathname;
-    const current = Object.keys(DEMO_SWAP).find((name) => path.endsWith(name)) || "index.html";
-    window.location.href = DEMO_SWAP[current] + window.location.search;
+    const cycle = PRODUCT_CYCLE.some((name) => path.endsWith(name)) ? PRODUCT_CYCLE : LISTING_CYCLE;
+    const currentIndex = cycle.findIndex((name) => path.endsWith(name));
+    const next = cycle[(Math.max(currentIndex, 0) + 1) % cycle.length];
+    window.location.href = next + window.location.search;
   });
 }

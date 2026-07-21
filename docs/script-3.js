@@ -12,11 +12,15 @@ function badgesHtml(product) {
   return items ? `<div class="product-badges">${items}</div>` : "";
 }
 
-function nutriScoreHtml(product) {
+function nutriScoreRowHtml(product) {
   if (!product.nutriScore) return "";
   const grade = product.nutriScore.toLowerCase();
   const tooltip = NUTRI_SCORE_DESCRIPTIONS[product.nutriScore] || `Nutri-Score ${product.nutriScore}`;
-  return `<span class="has-tooltip" data-tooltip="${tooltip}" tabindex="0"><img class="nutri-score-badge" src="assets/nutri-score/nutri-score-small-${grade}.svg" alt="Nutri-Score ${product.nutriScore}" /></span>`;
+  return `
+    <div class="product-nutriscore-row">
+      <span class="product-nutriscore-label">Nutri-Score</span>
+      <span class="has-tooltip" data-tooltip="${tooltip}" tabindex="0"><img class="nutri-score-badge" src="assets/nutri-score/nutri-score-small-${grade}.svg" alt="Nutri-Score ${product.nutriScore}" /></span>
+    </div>`;
 }
 
 function productTagsHtml(product) {
@@ -55,7 +59,6 @@ function cardHtml(product) {
       <div class="product-image">
         <img class="photo" src="assets/products/${product.img}.${product.ext || "svg"}" alt="${product.name}" />
         ${badges}
-        <div class="product-nutriscore-overlay">${nutriScoreHtml(product)}</div>
         ${counterHtml(product)}
       </div>
       <div class="product-content">
@@ -65,12 +68,15 @@ function cardHtml(product) {
         </div>
         <p class="product-name">${product.name}</p>
         <span class="product-weight">${product.weight} ${product.unit || "г"}</span>
-        <div class="product-tags-rating">
-          ${productTagsHtml(product)}
-          <span class="product-rating">
-            <img src="assets/star.svg" alt="" />
-            <span>${product.rating}</span>
-          </span>
+        <div class="product-nutri-block">
+          ${nutriScoreRowHtml(product)}
+          <div class="product-tags-rating">
+            ${productTagsHtml(product)}
+            <span class="product-rating">
+              <img src="assets/star.svg" alt="" />
+              <span>${product.rating}</span>
+            </span>
+          </div>
         </div>
       </div>
     </article>`;
@@ -83,6 +89,6 @@ grid.querySelectorAll(".product-card").forEach((card) => {
   card.style.cursor = "pointer";
   card.addEventListener("click", (event) => {
     if (event.target.closest(".counter-plus, .counter-timeslot")) return;
-    window.location.href = `product-2.html?id=${card.dataset.slug}`;
+    window.location.href = `product-3.html?id=${card.dataset.slug}`;
   });
 });
