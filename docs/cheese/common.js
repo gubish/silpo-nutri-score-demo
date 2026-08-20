@@ -53,6 +53,22 @@ if (searchInput && searchPanel && searchBox) {
     "сир безлактозний": "index.html?filter=lactose-free",
   };
 
+  // The assistant half of the panel: ready-made intents offered instead of a
+  // typed query. The ones that map onto a quick filter open the filtered
+  // listing; the rest are demo-only prompts with nowhere to go yet.
+  const AI_SCENARIOS = [
+    { label: "Добрати білок", href: "index.html?filter=protein" },
+    { label: "Щось легке", href: "index.html?filter=fat" },
+    { label: "Повторити останнє замовлення" },
+    { label: "Зібрати швидку вечерю" },
+    { label: "Знайти продукти під мої потреби", href: "index.html?filter=lactose-free" },
+  ];
+
+  // Phones show fewer past queries so the assistant block below stays above
+  // the keyboard.
+  const HISTORY_DESKTOP = 4;
+  const HISTORY_MOBILE = 3;
+
   const headerBar = document.querySelector(".listing-header-bar, .pdp-header-bar");
   const headerRow = document.querySelector(".header-row");
   const mobileSearchBtn = document.getElementById("mobile-search-btn");
@@ -69,6 +85,7 @@ if (searchInput && searchPanel && searchBox) {
   function historyHtml() {
     if (!searchHistory.length) return `<p class="search-empty">Історія пошуку порожня</p>`;
     const rows = searchHistory
+      .slice(0, isMobile.matches ? HISTORY_MOBILE : HISTORY_DESKTOP)
       .map(
         (query, index) => `
         <div class="search-row">
@@ -101,10 +118,28 @@ if (searchInput && searchPanel && searchBox) {
       .join("");
   }
 
+  function aiHtml() {
+    const chips = AI_SCENARIOS.map(
+      (scenario) =>
+        `<button class="search-ai-chip" type="button" data-ai="${escapeHtml(scenario.href || "")}">${escapeHtml(
+          scenario.label
+        )}</button>`
+    ).join("");
+    return `
+      <div class="search-ai">
+        <span class="search-ai-title">Що вам потрібно сьогодні?</span>
+        <div class="search-ai-row">
+          <img class="search-ai-mascot" src="assets/ai-mascot.png" alt="" />
+          <div class="search-ai-chips">${chips}</div>
+        </div>
+      </div>`;
+  }
+
   function renderSearchPanel() {
     const query = searchInput.value;
-    searchPanel.innerHTML = query.trim() ? suggestionsHtml(query) : historyHtml();
+    searchPanel.innerHTML = query.trim() ? suggestionsHtml(query) : historyHtml() + aiHtml();
     searchClear.hidden = !query;
+    fitPanelToViewport();
   }
 
   // Open state: the field lifts out of the header flow and widens until the
@@ -146,6 +181,20 @@ if (searchInput && searchPanel && searchBox) {
     searchBox.classList.add("expanded");
   }
 
+  // Phones: the on-screen keyboard shrinks the visual viewport without
+  // changing the layout one, so a vh-based cap would put the assistant chips
+  // behind the keyboard. Measure what is actually left below the field and
+  // cap the panel to that instead.
+  function fitPanelToViewport() {
+    const viewport = window.visualViewport;
+    if (searchPanel.hidden || !isMobile.matches || !viewport) {
+      searchPanel.style.removeProperty("--search-panel-max");
+      return;
+    }
+    const top = searchPanel.getBoundingClientRect().top - viewport.offsetTop;
+    searchPanel.style.setProperty("--search-panel-max", `${Math.max(180, viewport.height - top - 12)}px`);
+  }
+
   function resetSearchField() {
     searchBox.classList.remove("expanded");
     searchBox.style.top = "";
@@ -163,6 +212,7 @@ if (searchInput && searchPanel && searchBox) {
     if (open) {
       renderSearchPanel();
       widenSearchField();
+      fitPanelToViewport();
     } else {
       resetSearchField();
     }
@@ -213,6 +263,11 @@ if (searchInput && searchPanel && searchBox) {
       renderSearchPanel();
       return;
     }
+    const scenario = event.target.closest("[data-ai]");
+    if (scenario) {
+      if (scenario.dataset.ai) window.location.href = scenario.dataset.ai;
+      return;
+    }
     const query = event.target.closest("[data-query]");
     if (query) {
       const shortcut = SEARCH_SHORTCUTS[query.dataset.query];
@@ -234,7 +289,17 @@ if (searchInput && searchPanel && searchBox) {
     if (searchPanel.hidden) return;
     resetSearchField();
     widenSearchField();
+    fitPanelToViewport();
   });
+
+  isMobile.addEventListener("change", () => {
+    if (!searchPanel.hidden) renderSearchPanel();
+  });
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", fitPanelToViewport);
+    window.visualViewport.addEventListener("scroll", fitPanelToViewport);
+  }
 
   document.addEventListener("mousedown", (event) => {
     if (searchPanel.hidden) return;
