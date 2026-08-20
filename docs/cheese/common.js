@@ -121,16 +121,16 @@ if (searchInput && searchPanel && searchBox) {
   function aiHtml() {
     const chips = AI_SCENARIOS.map(
       (scenario) =>
-        `<button class="search-ai-chip" type="button" data-ai="${escapeHtml(scenario.href || "")}">${escapeHtml(
+        `<button class="ai-prompt-chip" type="button" data-ai="${escapeHtml(scenario.href || "")}">${escapeHtml(
           scenario.label
         )}</button>`
     ).join("");
     return `
-      <div class="search-ai">
-        <span class="search-ai-title">Що вам потрібно сьогодні?</span>
-        <div class="search-ai-row">
-          <img class="search-ai-mascot" src="assets/ai-mascot.png" alt="" />
-          <div class="search-ai-chips">${chips}</div>
+      <div class="ai-prompt">
+        <span class="ai-prompt-title">Що вам потрібно сьогодні?</span>
+        <div class="ai-prompt-row">
+          <img class="ai-prompt-mascot" src="assets/ai-mascot.png" alt="" />
+          <div class="ai-prompt-chips">${chips}</div>
         </div>
       </div>`;
   }

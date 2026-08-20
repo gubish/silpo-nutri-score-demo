@@ -164,3 +164,10 @@ document.querySelectorAll(".pdp-accordion-toggle").forEach((toggle) => {
     accordion.classList.toggle("open", !expanded);
   });
 });
+
+// The only assistant chip with somewhere real to go: "Знайди аналог" drops the
+// reader into the similar-products carousel. The other two are prompts the
+// prototype has no answer for yet.
+document.querySelector("[data-scroll-to='pdp-similar']")?.addEventListener("click", () => {
+  document.querySelector(".pdp-similar").scrollIntoView({ behavior: "smooth", block: "start" });
+});

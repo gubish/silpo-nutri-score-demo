@@ -178,7 +178,11 @@ button {
 .header-search .icon-btn {
   color: var(--black-72);
 }
-.header-search span {
+/* Scoped to a direct child: this styles the field's own placeholder span, but
+   unscoped it also reached every span inside the panel below — squashing the
+   assistant title to zero height once it became a flex item, and overriding
+   the history title's colour. */
+.header-search > span {
   flex: 1 0 0;
   min-width: 0;
   font-family: var(--font-proxima);
@@ -341,37 +345,43 @@ button {
   color: var(--black-60);
 }
 
-/* Assistant scenarios: the second half of the empty-field panel, offered
-   instead of a typed query. */
-.search-ai {
-  margin-top: 8px;
+/* Assistant prompt: a mascot and a row of ready-made intents. Shared by the
+   empty-field search panel and the PDP nutrients block, which differ only in
+   how the mascot sits relative to the ask — see the PDP variant below.
+   --ai-bleed is how far the chip row has to reach on phones to touch its
+   container's outer edge; each host sets its own. */
+.ai-prompt {
   padding: 16px;
+}
+.search-panel .ai-prompt {
+  --ai-bleed: 24px;
+  margin-top: 8px;
   border-top: 1px solid var(--black-8);
 }
-.search-ai-title {
+.ai-prompt-title {
   display: block;
   font-family: var(--font-proxima);
   font-weight: 600;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--black-87);
 }
-.search-ai-row {
+.ai-prompt-row {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
   margin-top: 12px;
 }
-.search-ai-mascot {
-  width: 50px;
-  height: 50px;
+.ai-prompt-mascot {
+  width: 60px;
+  height: 60px;
   flex-shrink: 0;
 }
-.search-ai-chips {
+.ai-prompt-chips {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
-.search-ai-chip {
+.ai-prompt-chip {
   height: 32px;
   padding: 4px 16px;
   border: 1px solid var(--black-8);
@@ -385,9 +395,40 @@ button {
   white-space: nowrap;
   transition: background-color 0.15s ease, border-color 0.15s ease;
 }
-.search-ai-chip:hover {
+.ai-prompt-chip:hover {
   background: var(--blue-50);
   border-color: var(--additional-300);
+}
+
+/* PDP variant: the mascot moves beside the ask rather than under it, which
+   packs the block into two lines. It sits on the page rather than on a surface
+   of its own, so its chips stop at the same content edge the cards use. Its
+   three prompts are the widest set the component carries, so everything here
+   runs tighter than the panel's — that is what buys them a single line at the
+   page's full width. */
+.pdp-ai-prompt {
+  --ai-bleed: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+}
+.ai-prompt-body {
+  flex: 1 0 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.pdp-ai-prompt .ai-prompt-mascot {
+  width: 72px;
+  height: 72px;
+}
+.pdp-ai-prompt .ai-prompt-chips {
+  gap: 6px;
+}
+.pdp-ai-prompt .ai-prompt-chip {
+  padding: 4px 10px;
 }
 
 .header-right {
@@ -2334,29 +2375,34 @@ img.pdp-nutrients-tag-icon {
     }
   }
 
+  /* Phones: the search panel shares the screen with the keyboard, and the PDP
+     card is too narrow for three chips, so the row runs in one swipeable line
+     instead of wrapping. */
   /* Phones: the panel shares the screen with the keyboard, so the assistant
      chips run in one swipeable line instead of wrapping into four. */
-  .search-ai-row {
-    gap: 12px;
+  .ai-prompt-row {
     margin-top: 10px;
   }
-  .search-ai-mascot {
+  .ai-prompt-mascot {
     width: 40px;
     height: 40px;
   }
-  .search-ai-chips {
+  .pdp-ai-prompt .ai-prompt-body {
+    gap: 12px;
+  }
+  .ai-prompt-chips {
     flex-wrap: nowrap;
     overflow-x: auto;
     scrollbar-width: none;
-    /* Bled out past the panel's own padding so the next chip is visibly cut
+    /* Bled out past the host's own padding so the next chip is visibly cut
        off — that sliver is the only cue the row scrolls. */
-    margin-right: -24px;
-    padding-right: 24px;
+    margin-right: calc(-1 * var(--ai-bleed, 16px));
+    padding-right: var(--ai-bleed, 16px);
   }
-  .search-ai-chips::-webkit-scrollbar {
+  .ai-prompt-chips::-webkit-scrollbar {
     display: none;
   }
-  .search-ai-chip {
+  .ai-prompt-chip {
     flex-shrink: 0;
   }
 
