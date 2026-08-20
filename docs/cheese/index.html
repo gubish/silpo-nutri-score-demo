@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Тверді і напівтверді сири — Сільпо</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="listing-plated listing-nutriscore-bottom">
+<div class="listing-header-bar">
+  <header class="header-row">
+    <div class="header-left">
+      <div class="header-brand">
+        <img class="icon-btn" src="assets/burger-menu.svg" alt="Меню" />
+        <img class="logo" src="assets/logo.svg" alt="Сільпо" />
+        <div class="all-goods-pill">
+          <span class="services-icon"><span></span><span></span><span></span><span></span></span>
+          <span class="label">Всі товари</span>
+          <img class="icon-btn" src="assets/expand-more.svg" alt="" />
+        </div>
+      </div>
+      <div class="header-search" id="header-search">
+        <img class="icon-btn" src="assets/search-icon.svg" alt="" />
+        <input class="header-search-input" id="search-input" type="text" placeholder="Я шукаю..." autocomplete="off" />
+        <button class="header-search-clear" id="search-clear" type="button" aria-label="Очистити" hidden><img src="assets/close.svg" alt="" /></button>
+        <div class="search-panel" id="search-panel" hidden></div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="location">
+        <div class="location-icon-wrap"><img src="assets/location-icon.svg" alt="" /></div>
+        <div class="location-text">
+          <div class="line1">Доставка</div>
+          <div class="line2">Київ, вул. Раїси Окіпної, 7...</div>
+        </div>
+      </div>
+      <div class="profile">
+        <div class="profile-avatar">БА</div>
+        <div class="profile-info">
+          <div class="name">Байрактар А.</div>
+          <div class="balance"><span class="label">Балобонуси:</span><span class="value">33 567</span></div>
+        </div>
+      </div>
+      <button class="header-cart-btn" aria-label="Кошик">
+        <img src="assets/cart-outline.svg" alt="" />
+        <span>Кошик</span>
+      </button>
+    </div>
+
+    <div class="header-row-mobile">
+      <div class="header-mobile-left">
+        <img class="icon-btn" src="assets/burger-menu.svg" alt="Меню" />
+        <img class="logo" src="assets/logo.svg" alt="Сільпо" />
+        <button class="mobile-icon-btn" id="mobile-search-btn"><img src="assets/search-icon.svg" alt="Пошук" /></button>
+      </div>
+      <div class="header-mobile-right">
+        <div class="location-mobile">
+          <button class="mobile-icon-btn"><img src="assets/location-icon.svg" alt="Доставка" /></button>
+          <span class="location-mobile-text">Київ, вул. Раїси Окіпної, 7...</span>
+        </div>
+        <div class="profile-avatar profile-avatar-mobile">БА</div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<div class="page">
+
+  <div class="timeslots">
+    <span class="timeslots-label">Привеземо:</span>
+    <div class="chip with-icon"><img src="assets/express-default.svg" alt="" />до 59 хв.</div>
+    <div class="chip selected">10:30 – 12:00<img class="mobile-only-chevron" src="assets/expand-more-down.svg" alt="" /></div>
+    <div class="chip">12:00 – 13:30</div>
+    <div class="chip with-tag">14:00 – 15:30 <span class="tag-pill">360º</span></div>
+    <div class="chip dropdown">Інший час <img src="assets/expand-more-down.svg" alt="" /></div>
+  </div>
+
+  <div class="listing-grey-band">
+   <div class="listing-grey-band-inner">
+
+    <section class="banners">
+      <div class="banner-content">
+        <div class="main-banner">
+          <img class="bg bg-desktop" src="assets/main-banner.png" alt="Тверді і напівтверді сири" />
+          <img class="bg bg-mobile" src="assets/main-banner-mobile.png" alt="Тверді і напівтверді сири" />
+          <div class="banner-arrows">
+            <span class="banner-arrow prev"><img src="assets/collapse-left.svg" alt="Попередній" /></span>
+            <span class="banner-arrow next"><img src="assets/collapse-right.svg" alt="Наступний" /></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="breadcrumbs">
+      <a href="#">Головна</a>
+      <img src="assets/breadcrumb-chevron.svg" alt="" />
+      <span class="current">Тверді і напівтверді сири</span>
+    </nav>
+
+    <div class="category-chips">
+      <div class="cat-chip"><span class="dot"></span><span class="cat-label">З пліснявою</span><span class="cat-count">318</span></div>
+      <div class="cat-chip"><span class="dot"></span><span class="cat-label">Розсільні</span><span class="cat-count">437</span></div>
+      <div class="cat-chip"><span class="dot"></span><span class="cat-label">Тверді і напівтверді</span><span class="cat-count">1053</span></div>
+      <div class="cat-chip"><span class="dot"></span><span class="cat-label">Козячі і овечі</span><span class="cat-count">73</span></div>
+      <div class="cat-chip"><span class="dot"></span><span class="cat-label">Крем-сири</span><span class="cat-count">301</span></div>
+      <div class="cat-chip"><span class="dot"></span><span class="cat-label">Плавлені</span><span class="cat-count">200</span></div>
+      <div class="cat-chip"><span class="dot"></span><span class="cat-label">Для дітей</span><span class="cat-count">10</span></div>
+      <div class="cat-chip"><span class="dot"></span><span class="cat-label">Набори</span><span class="cat-count">27</span></div>
+      <div class="cat-chip"><span class="dot"></span><span class="cat-label">Соуси</span><span class="cat-count">34</span></div>
+      <button class="cat-chips-toggle" id="cat-chips-toggle">Всі</button>
+    </div>
+
+    <div class="page-title"><h1>Тверді і напівтверді сири</h1></div>
+
+    <div class="listing-toolbar">
+      <div class="quick-filters">
+        <button class="quick-filter-chip" data-filter="protein">Білок від 20 г</button>
+        <button class="quick-filter-chip" data-filter="fat">Жирність до 20%</button>
+        <button class="quick-filter-chip" data-filter="lactose-free">Без лактози</button>
+      </div>
+      <button class="filters-btn"><img src="assets/filter-sort.svg" alt="" /><span>Всі фільтри</span></button>
+      <div class="sort-dropdown">
+        <button class="sort-btn" id="sort-btn" aria-haspopup="listbox" aria-expanded="false"><img src="assets/sort.svg" alt="" /><span id="sort-btn-label">Спочатку популярні</span></button>
+        <div class="sort-menu" id="sort-menu" role="listbox" hidden>
+          <button class="sort-option" role="option" data-sort="protein" data-sort-for="protein">Більше білка спочатку</button>
+          <button class="sort-option" role="option" data-sort="fat" data-sort-for="fat">Менша жирність спочатку</button>
+          <button class="sort-option selected" role="option" data-sort="popular">Спочатку популярні</button>
+          <button class="sort-option" role="option" data-sort="promo">Спочатку акційні</button>
+          <button class="sort-option" role="option" data-sort="rating">За рейтингом</button>
+          <button class="sort-option" role="option" data-sort="az">Від А до Я</button>
+          <button class="sort-option" role="option" data-sort="za">Від Я до А</button>
+          <button class="sort-option" role="option" data-sort="cheap">Спочатку дешевші</button>
+          <button class="sort-option" role="option" data-sort="expensive">Спочатку дорожчі</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="product-section" id="product-grid"></section>
+
+    <div class="load-more-section">
+      <button class="show-more-btn">Показати ще</button>
+      <div class="pagination">
+        <span class="page-btn"><img src="assets/chevron-left.svg" alt="Попередня сторінка" /></span>
+        <span class="page-btn active">1</span>
+        <span class="page-btn">2</span>
+        <span class="page-btn">3</span>
+        <span class="page-btn"><img src="assets/menu-dots.svg" alt="" /></span>
+        <span class="page-btn">6</span>
+        <span class="page-btn"><img src="assets/chevron-right.svg" alt="Наступна сторінка" /></span>
+      </div>
+    </div>
+
+   </div>
+  </div>
+
+  <div class="also-searching">
+    <h2>Також шукають</h2>
+    <div class="tag-cloud">
+      <span class="pill">Тверді сири</span>
+      <span class="pill">Моцарела</span>
+      <span class="pill">Сир з пліснявою</span>
+      <span class="pill">Крем-сир</span>
+      <span class="pill">Бринза</span>
+      <span class="pill">Сулугуні</span>
+      <span class="pill">Пармезан</span>
+      <span class="pill">Камамбер</span>
+      <span class="pill">Гауда</span>
+      <span class="pill">Плавлений сир</span>
+      <span class="pill">Козячий сир</span>
+      <span class="pill">Фета</span>
+      <span class="pill">Сирна тарілка</span>
+      <span class="pill">Сир для піци</span>
+      <span class="pill">Маскарпоне</span>
+    </div>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-top-inner">
+      <div class="footer-columns">
+        <div class="footer-col">
+          <button class="footer-col-toggle" aria-expanded="false">
+            <h3>Замовлення</h3>
+            <img class="footer-chevron" src="assets/footer-chevron.svg" alt="" />
+          </button>
+          <div class="footer-col-links">
+            <a href="#">Формування замовлення</a>
+            <a href="#">Отримання замовлення</a>
+            <a href="#">Зміни у замовленні</a>
+            <a href="#">Правила Інтернет продажів</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <button class="footer-col-toggle" aria-expanded="false">
+            <h3>Для Гостя</h3>
+            <img class="footer-chevron" src="assets/footer-chevron.svg" alt="" />
+          </button>
+          <div class="footer-col-links">
+            <a href="#">Про «Власний рахунок»</a>
+            <a href="#">Правила програми «Власний Рахунок»</a>
+            <a href="#">Запитання та відповіді</a>
+            <a href="#">Cупермаркети</a>
+            <a href="#">Події</a>
+            <a href="#">Ціна тижня</a>
+            <a href="#">Доставка за 1 гривню з Masterсard</a>
+            <a href="#">Подарункові сертифікати</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <button class="footer-col-toggle" aria-expanded="false">
+            <h3>Цікавинки</h3>
+            <img class="footer-chevron" src="assets/footer-chevron.svg" alt="" />
+          </button>
+          <div class="footer-col-links">
+            <a href="#">Екодружність</a>
+            <a href="#">Соціальна турбота</a>
+            <a href="#">«Лавка Традицій»</a>
+            <a href="#">«Власна Коднитерська»</a>
+            <a href="#">«Крафтяр»</a>
+            <a href="#">Друзі «Сільпо»</a>
+            <a href="#">Дизайнерські супермаркети</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <button class="footer-col-toggle" aria-expanded="false">
+            <h3>Про компанію</h3>
+            <img class="footer-chevron" src="assets/footer-chevron.svg" alt="" />
+          </button>
+          <div class="footer-col-links">
+            <a href="#">Робота в «Сільпо»</a>
+            <a href="#">Новини</a>
+            <a href="#">Звітність</a>
+            <a href="#">Контакти</a>
+            <a href="#">Політики компанії</a>
+            <a href="#">Політика конфіденційності</a>
+            <a href="#">Правила безпеки</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-contact-row">
+        <div class="footer-call">
+          <span class="call-label">Гаряча лінія у межах України</span>
+          <span class="call-value"><img src="assets/phone-icon.svg" alt="" /><span>0 800 301 707</span></span>
+          <span class="footer-mail"><img src="assets/mail-icon.svg" alt="" /><span>program@silpo.ua</span></span>
+        </div>
+        <div class="footer-call">
+          <span class="call-label">Для дзвінків з-за кордону</span>
+          <span class="call-value"><img src="assets/phone-icon.svg" alt="" /><span>+38 044 496 32 38</span></span>
+        </div>
+        <div class="footer-app">
+          <img src="assets/logo-app.png" alt="Сільпо застосунок" />
+          <div>
+            <div class="app-download">Завантажити</div>
+            <div class="app-name">Мобільний застосунок</div>
+          </div>
+        </div>
+        <div class="footer-social">
+          <span>Сільпо у соціальних мережах</span>
+          <div class="icons">
+            <span class="social-icon instagram"><img src="assets/social-instagram-glyph.svg" alt="Instagram" /></span>
+            <span class="social-icon facebook"><img src="assets/social-facebook-glyph.svg" alt="Facebook" /></span>
+            <span class="social-icon viber"><img src="assets/social-viber-glyph.svg" alt="Viber" /></span>
+            <span class="social-icon telegram"><img src="assets/social-fourth.svg" alt="Telegram" /></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom-inner"><span>© Silpo, 2024</span></div>
+  </div>
+</footer>
+
+<script src="common.js"></script>
+<script src="products.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
