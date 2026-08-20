@@ -2347,11 +2347,13 @@ img.pdp-nutrients-tag-icon {
   /* Same controls as desktop, kept on one row: the sort button's auto
      margin absorbs whatever width is left, then the whole row scrolls
      sideways — same behaviour as the category chips above the title. */
+  /* No -webkit-overflow-scrolling here: it is a no-op since iOS 13 and it is
+     what forces the scroller onto its own layer on older iOS, which is the
+     trap the sort menu has to stay out of. */
   .listing-toolbar {
     overflow-x: auto;
     padding: 0 16px 16px;
     scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
   }
   .listing-toolbar::-webkit-scrollbar {
     display: none;
@@ -2366,7 +2368,10 @@ img.pdp-nutrients-tag-icon {
     margin-left: -8px;
   }
   /* The toolbar scrolls horizontally, which would clip an absolutely
-     positioned menu — float it over the page instead. */
+     positioned menu — float it over the page instead. Fixed positioning alone
+     is not enough: iOS Safari pulls a fixed descendant into the scrolling
+     ancestor's own layer, which paints below the grid. script.js moves the
+     menu onto <body> while it is open here, so it has no scrolling ancestor. */
   .sort-menu {
     position: fixed;
     top: auto;

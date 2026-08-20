@@ -242,10 +242,27 @@ const sortBtn = document.getElementById("sort-btn");
 const sortMenu = document.getElementById("sort-menu");
 const sortLabel = document.getElementById("sort-btn-label");
 
+// Below the desktop breakpoint the toolbar scrolls sideways, and iOS Safari
+// pulls a position:fixed descendant into the scrolling ancestor's layer — the
+// menu then paints behind the product grid instead of over it. Park it on
+// <body> while it is open there; desktop keeps it inside .sort-dropdown, which
+// is what its absolute positioning is anchored to.
+const sortDropdown = sortBtn && sortBtn.closest(".sort-dropdown");
+const sortMenuFloats = window.matchMedia("(max-width: 1023px)");
+
+function placeSortMenu() {
+  const host = sortMenuFloats.matches ? document.body : sortDropdown;
+  if (host && sortMenu.parentElement !== host) host.appendChild(sortMenu);
+}
+
 function setSortMenuOpen(open) {
+  if (open) placeSortMenu();
   sortMenu.hidden = !open;
   sortBtn.classList.toggle("open", open);
   sortBtn.setAttribute("aria-expanded", String(open));
+  if (!open && sortDropdown && sortMenu.parentElement !== sortDropdown) {
+    sortDropdown.appendChild(sortMenu);
+  }
 }
 
 function selectSort(option) {
@@ -284,11 +301,20 @@ if (sortBtn && sortMenu) {
     });
   });
 
+  // .sort-menu is listed separately: while open on mobile it lives on <body>,
+  // so it is no longer inside .sort-dropdown.
   document.addEventListener("click", (event) => {
-    if (!sortMenu.hidden && !event.target.closest(".sort-dropdown")) setSortMenuOpen(false);
+    if (!sortMenu.hidden && !event.target.closest(".sort-dropdown, .sort-menu")) {
+      setSortMenuOpen(false);
+    }
   });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") setSortMenuOpen(false);
+  });
+
+  // Rotating the phone can cross the breakpoint with the menu still open.
+  sortMenuFloats.addEventListener("change", () => {
+    if (!sortMenu.hidden) placeSortMenu();
   });
 
   syncSortOptions();
