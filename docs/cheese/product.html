@@ -187,6 +187,9 @@
         <div class="pdp-nutrients-tags-row" id="pdp-nutrients-tags"></div>
       </div>
 
+      <!-- Assistant prompt, temporarily hidden. Uncomment to bring it back; its
+           styles (.ai-prompt / .pdp-ai-prompt) and the "Знайди аналог" handler
+           in pdp.js are still in place and wait for this markup.
       <div class="ai-prompt pdp-ai-prompt">
         <img class="ai-prompt-mascot" src="assets/ai-mascot.png" alt="" />
         <div class="ai-prompt-body">
@@ -198,6 +201,7 @@
           </div>
         </div>
       </div>
+      -->
     </div>
    </div>
    </div>
@@ -327,11 +331,11 @@
 </div>
 
 <div class="pdp-cart-bubble">
-  <span class="pdp-cart-icon-wrap">
+  <span class="cart-icon-wrap">
     <img src="assets/pdp/cart-icon.svg" alt="" />
-    <span class="pdp-cart-badge">6</span>
+    <span class="cart-badge" id="bubble-cart-count"></span>
   </span>
-  <span class="pdp-cart-total">123.00 грн</span>
+  <span class="cart-total" id="bubble-cart-total"></span>
 </div>
 
 <script src="common.js"></script>

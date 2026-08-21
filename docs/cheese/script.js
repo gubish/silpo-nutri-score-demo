@@ -154,6 +154,16 @@ function renderGrid() {
 
 renderGrid();
 
+// Cart adds. The card's own click handler already ignores the plus, so it only
+// ever adds — it never opens the product. Delegated because renderGrid()
+// replaces the cards on every filter and sort change.
+grid.addEventListener("click", (event) => {
+  const plus = event.target.closest(".counter-plus, .ts-plus");
+  if (!plus) return;
+  const product = PRODUCTS.find((item) => item.slug === plus.closest(".product-card").dataset.slug);
+  if (product) addToCart(product.slug, product.price);
+});
+
 // One quick filter at a time; clicking the active chip clears it.
 document.querySelectorAll(".quick-filter-chip").forEach((chip) => {
   chip.addEventListener("click", () => {
@@ -320,9 +330,9 @@ if (sortBtn && sortMenu) {
   syncSortOptions();
 }
 
-// A search-history shortcut can land on this page with a filter already
-// chosen (index.html?filter=…). Applied last, once the chips, the sort menu
-// and the grid are all wired up.
+// A search-history shortcut or an assistant scenario can land on this page
+// with a filter already chosen (index.html?filter=…). Applied last, once the
+// chips, the sort menu and the grid are all wired up.
 const initialFilter = new URLSearchParams(window.location.search).get("filter");
 if (initialFilter && QUICK_FILTERS[initialFilter]) {
   activeFilter = initialFilter;
@@ -331,4 +341,32 @@ if (initialFilter && QUICK_FILTERS[initialFilter]) {
   });
   syncSortOptions();
   renderGrid();
+}
+
+// The assistant's half of a scenario. It is answered here rather than where it
+// was asked because only this page knows how many products the filter left.
+// The count is the one thing that must be exact — the rest is Машрум
+// Геннадійович being himself: старий, трохи загадковий і не в захваті від
+// того, що його потурбували.
+const CHAT_ANSWERS = {
+  protein: (count) =>
+    `Білок… Ну звісно, білок. Прошепотів полицям — відгукнулося ${count} ${plural(count, "сир", "сири", "сирів")}, у яких його вдосталь. Решту я відпустив назад у темряву.`,
+  fat: (count) =>
+    `Легкого забаглося. Гаразд, просіяв крізь себе: лишилося ${count} ${plural(count, "сир", "сири", "сирів")}, що не обтяжать. Дивіться, поки я не передумав.`,
+  "lactose-free": (count) =>
+    `Лактоза. Скільки ж я на неї надивився за свій вік… Відсіяв: ось ${count} ${plural(count, "сир", "сири", "сирів")}, які вам не зашкодять.`,
+};
+
+function plural(count, one, few, many) {
+  const tail = count % 10;
+  const hundreds = count % 100;
+  if (tail === 1 && hundreds !== 11) return one;
+  if (tail >= 2 && tail <= 4 && (hundreds < 12 || hundreds > 14)) return few;
+  return many;
+}
+
+if (sessionStorage.getItem("silpo-chat-pending")) {
+  sessionStorage.removeItem("silpo-chat-pending");
+  const answer = CHAT_ANSWERS[activeFilter];
+  if (answer) pushChatMessage("bot", answer(PRODUCTS.filter(QUICK_FILTERS[activeFilter].matches).length));
 }

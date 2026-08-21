@@ -8,6 +8,12 @@
   --font-proxima: 'Proxima Nova', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
   --font-silpo: 'Silpo Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
 
+  /* Desktop width of the assistant chat column. Fixed rather than a share of
+     the viewport: a percentage keeps growing with the screen, and past a point
+     a chat column is just wide, not more useful. Every rule that makes room
+     for the panel derives from this, so it is the only number to change. */
+  --ai-chat-w: 420px;
+
   --black-87: rgba(19, 19, 30, 0.87);
   --black-72: rgba(19, 19, 30, 0.72);
   --black-60: rgba(19, 19, 30, 0.6);
@@ -400,6 +406,400 @@ button {
   border-color: var(--additional-300);
 }
 
+/* Floating assistant: the mascot from the PDP prompt, parked in the corner so
+   it stays reachable while the page scrolls, with room above it for a line he
+   volunteers himself. The dock owns the corner — the two stack inside it, so
+   the offsets that clear the phone's buy bar live in one place. Sits above the
+   mobile buy bar (z-index 40) and cart bubble (41), but below the search
+   overlay (90) so opening the search still dims it. */
+.ai-dock {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+.ai-fab {
+  width: 80px;
+  height: 80px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+/* The line he volunteers on his own, hanging above the mascot. Right-aligned
+   with it so the two read as one thing. */
+.ai-nudge {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  max-width: min(280px, calc(100vw - 48px));
+  padding: 12px 12px 12px 14px;
+  border-radius: 16px;
+  border-bottom-right-radius: 4px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(19, 19, 30, 0.16), 0 0 0 1px rgba(19, 19, 30, 0.04);
+}
+.ai-nudge[hidden] {
+  display: none;
+}
+.ai-nudge-text {
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-silpo);
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--black-87);
+}
+.ai-nudge-close {
+  display: flex;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  opacity: 0.4;
+}
+.ai-nudge-close:hover {
+  opacity: 0.8;
+}
+.ai-nudge-close img {
+  width: 16px;
+  height: 16px;
+}
+.ai-fab img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.ai-fab:hover {
+  transform: scale(1.06);
+}
+.ai-fab:active {
+  transform: scale(0.97);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ai-fab {
+    transition: none;
+  }
+  .ai-fab:hover,
+  .ai-fab:active {
+    transform: none;
+  }
+}
+
+/* Assistant chat, in three tiers.
+   Phones get a full-screen sheet. Tablets and small laptops get a right-hand
+   sheet over a dimmed page: the desktop layout is drawn for at least 1024px,
+   and squeezing a 1180px screen would leave it 760px — cards shrink to 122px
+   and the whole grid falls apart. Only from 1440px, where the page keeps about
+   1020px, does it make room for the chat instead of hiding under it. */
+.ai-chat {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+/* Sliding in rather than appearing. A plain transition cannot do this — the
+   panel is toggled with [hidden], and display:none lands instantly — so the
+   display change is transitioned too (allow-discrete) and @starting-style
+   gives the browser a from-state to animate out of. Browsers without either
+   simply show the panel at once, which is where this started. */
+.ai-chat {
+  transition: transform 0.28s ease, opacity 0.28s ease, display 0.28s allow-discrete;
+}
+.ai-chat[hidden] {
+  display: none;
+  opacity: 0;
+  transform: translateY(100%);
+}
+@starting-style {
+  .ai-chat:not([hidden]) {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+.ai-chat-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 119;
+  background: rgba(19, 19, 30, 0.4);
+  transition: opacity 0.28s ease, display 0.28s allow-discrete;
+}
+.ai-chat-scrim[hidden] {
+  display: none;
+  opacity: 0;
+}
+@starting-style {
+  .ai-chat-scrim:not([hidden]) {
+    opacity: 0;
+  }
+}
+.ai-chat-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 16px;
+  border-bottom: 1px solid var(--black-8);
+}
+.ai-chat-avatar {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+.ai-chat-title {
+  flex: 1 0 0;
+  min-width: 0;
+  font-family: var(--font-proxima);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--black-87);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ai-chat-close {
+  display: flex;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.ai-chat-close img {
+  width: 24px;
+  height: 24px;
+}
+.ai-chat-body {
+  flex: 1 0 0;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+/* The thread carries the spacing between messages; the body's own gap only
+   separates it from the openers below. */
+.ai-chat-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.ai-msg {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+.ai-msg.from-user {
+  justify-content: flex-end;
+}
+.ai-msg-avatar {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+.ai-bubble {
+  max-width: 82%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-family: var(--font-silpo);
+  font-size: 14px;
+  line-height: 1.4;
+}
+.from-bot .ai-bubble {
+  border-bottom-left-radius: 4px;
+  background: var(--additional-100);
+  color: var(--black-87);
+}
+.from-user .ai-bubble {
+  border-bottom-right-radius: 4px;
+  background: var(--blue-700);
+  color: #ffffff;
+}
+/* Openers sit under the greeting and read as part of it, so they line up with
+   the bubble rather than the avatar. */
+.ai-chat-openers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-left: 40px;
+}
+/* display:flex above would otherwise beat the browser's own [hidden] rule. */
+.ai-chat-openers[hidden] {
+  display: none;
+}
+.ai-chat-composer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 12px 16px;
+  border-top: 1px solid var(--black-8);
+}
+.ai-chat-input {
+  flex: 1 0 0;
+  min-width: 0;
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--black-8);
+  border-radius: 100px;
+  outline: none;
+  background: #ffffff;
+  font-family: var(--font-proxima);
+  font-size: 16px;
+  color: var(--black-87);
+}
+.ai-chat-input::placeholder {
+  color: var(--black-60);
+}
+.ai-chat-input:focus {
+  border-color: var(--blue-500);
+}
+.ai-chat-send {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--blue-700);
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.ai-chat-send:disabled {
+  background: var(--additional-300);
+  cursor: default;
+}
+/* The mascot is what opened the chat, so it steps aside while it is open. */
+.ai-chat-open .ai-dock {
+  display: none;
+}
+/* Restored open on load rather than opened by hand: the scenario that landed
+   here left the chat open, so replaying the slide would read as it closing and
+   reopening. common.js holds this class for the first two frames. */
+.ai-chat-instant .ai-chat,
+.ai-chat-instant .ai-chat-scrim,
+.ai-chat-instant body {
+  transition: none;
+}
+/* Last, so it beats the sliding above — a cascade rule, not a preference. The
+   `html` prefix is doing real work: the page's own padding transition is
+   declared further down, in the 1440 block, and a bare `body` here would lose
+   to it. */
+@media (prefers-reduced-motion: reduce) {
+  .ai-chat,
+  .ai-chat-scrim,
+  html body {
+    transition: none;
+  }
+  .ai-chat[hidden],
+  .ai-chat-scrim[hidden] {
+    transform: none;
+  }
+}
+/* While the chat covers the page, the page behind it must not scroll. */
+@media (max-width: 1439px) {
+  .ai-chat-open {
+    overflow: hidden;
+  }
+}
+@media (min-width: 1024px) {
+  .ai-chat {
+    left: auto;
+    width: var(--ai-chat-w);
+    box-shadow: -8px 0 24px rgba(19, 19, 30, 0.12);
+  }
+  .ai-chat[hidden] {
+    transform: translateX(100%);
+  }
+  @starting-style {
+    .ai-chat:not([hidden]) {
+      transform: translateX(100%);
+    }
+  }
+}
+@media (min-width: 1440px) {
+  .ai-chat {
+    box-shadow: none;
+    border-left: 1px solid var(--black-8);
+  }
+  /* Room enough to sit beside the page rather than over it. */
+  .ai-chat-scrim {
+    display: none;
+  }
+  /* Padding on <body> rather than a width, so the sticky header and every
+     centred container reflow into what is left on their own. */
+  .ai-chat-open {
+    padding-right: var(--ai-chat-w);
+  }
+  body {
+    transition: padding-right 0.28s ease;
+  }
+  /* Three full-bleed rules break out of their container with 100vw, which
+     would now reach under the chat and force a horizontal scrollbar. They
+     bleed to the width of what is left instead. */
+  .ai-chat-open .header-row::after,
+  .ai-chat-open .header-row.search-focused::before {
+    width: calc(100vw - var(--ai-chat-w));
+  }
+  .ai-chat-open .listing-grey-band {
+    width: calc(100vw - var(--ai-chat-w));
+    margin-left: calc((100vw - var(--ai-chat-w)) / -2);
+    margin-right: calc((100vw - var(--ai-chat-w)) / -2);
+  }
+}
+/* Everything in the header but the search field is a fixed width: the brand
+   side needs 319px, the right-hand group 592px, and with padding and gaps that
+   leaves the field whatever is over 1079px. So the header only sheds the two
+   passengers it drops on phones — the delivery address and the profile text —
+   once that remainder would fall under about 200px, which is a header of 1279
+   and, with the chat's 420 alongside, a screen of 1699. Above that the field
+   still has room and the header stays whole. */
+/* Same two steps, measured against what is left of the page rather than the
+   viewport: the chat takes 420px off the front of every threshold. */
+@media (min-width: 1440px) and (max-width: 1699px) {
+  .ai-chat-open .profile-info {
+    display: none;
+  }
+}
+@media (min-width: 1440px) and (max-width: 1559px) {
+  .ai-chat-open .header-search {
+    flex: none;
+    width: 48px;
+    padding: 8px;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .ai-chat-open .header-search .header-search-input,
+  .ai-chat-open .header-search .header-search-clear {
+    display: none;
+  }
+  .ai-chat-open .header-search.open {
+    padding: 8px 16px;
+  }
+  .ai-chat-open .header-search.open .header-search-input {
+    display: block;
+  }
+  .ai-chat-open .header-search.open .header-search-clear:not([hidden]) {
+    display: flex;
+  }
+}
+
 /* PDP variant: the mascot moves beside the ask rather than under it, which
    packs the block into two lines. It sits on the page rather than on a surface
    of its own, so its chips stop at the same content edge the cards use. Its
@@ -488,17 +888,106 @@ button {
   width: 24px;
   height: 24px;
 }
-.header-cart-btn span {
+/* Scoped to the empty state: filled, this button's spans are the count badge
+   (dark on white) and the total, which style themselves. */
+body:not(.cart-filled) .header-cart-btn span {
   font-family: var(--font-proxima);
   font-weight: 700;
   font-size: 16px;
   color: #ffffff;
   white-space: nowrap;
 }
-@media (min-width: 1200px) {
+/* The header gives way by degrees, and nothing leaves outright while there is
+   still a desktop header. First the profile drops to its avatar; then, if it is
+   still tight, the search field steps back to the icon it is on phones —
+   clicking it expands it over the header, so only its resting width is spent.
+   Delivery and the cart hold out to the end: one is what people came to check,
+   the other the one thing here you act on rather than read. Both go only with
+   the whole desktop row, below 1024.
+
+   The numbers: the row costs 120px of padding, a 319px brand block and 24px
+   gaps, so a full right-hand group (592px) plus a search field of at least
+   200px needs 1280. With the profile at avatar width the group is 452px, which
+   holds to 1140. Below that the field collapses to 48px and the whole row fits
+   987px — comfortably inside the 1024 where the desktop header ends anyway. */
+@media (min-width: 1024px) {
   .header-cart-btn {
     display: flex;
   }
+}
+@media (max-width: 1279px) {
+  .profile-info {
+    display: none;
+  }
+}
+@media (max-width: 1139px) {
+  .header-search {
+    flex: none;
+    width: 48px;
+    padding: 8px;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .header-search .header-search-input,
+  .header-search .header-search-clear {
+    display: none;
+  }
+  /* Expanded, it is a search field again. */
+  .header-search.open {
+    padding: 8px 16px;
+  }
+  .header-search.open .header-search-input {
+    display: block;
+  }
+  .header-search.open .header-search-clear:not([hidden]) {
+    display: flex;
+  }
+}
+
+/* The filled-cart look, worn by two different controls: the phone's floating
+   bubble on the product page, and the desktop header button once there is
+   something to count. Kept out of any media query so both can reach it. */
+.cart-icon-wrap {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+.cart-icon-wrap img {
+  width: 24px;
+  height: 24px;
+}
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  left: 12px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 3px;
+  border-radius: 100px;
+  background: #ffffff;
+  border: 1.5px solid var(--blue-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-proxima);
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--blue-700);
+}
+.cart-total {
+  font-family: var(--font-proxima);
+  font-weight: 600;
+  font-size: 16px;
+  color: #ffffff;
+  white-space: nowrap;
+}
+/* Filled, the button is sized by its total rather than by the fixed width the
+   empty "Кошик" label was cut to. */
+.cart-filled .header-cart-btn {
+  width: auto;
+  min-width: 160px;
+  padding: 0 20px;
 }
 
 .profile {
@@ -1312,12 +1801,19 @@ button {
   display: inline-flex;
   outline: none;
 }
+/* display, not visibility: absolutely positioned or not, a laid-out tooltip
+   still counts towards its scroll container's overflow. Centred on a badge near
+   the right edge of a card, 200px of it reached past the page and gave every
+   filtered listing a horizontal scrollbar on phones. Costs the fade-in — a
+   transition cannot run from display:none — which is the cheaper half of the
+   trade. */
 .has-tooltip::after {
   content: attr(data-tooltip);
+  display: none;
   position: absolute;
   bottom: calc(100% + 8px);
   left: 50%;
-  transform: translate(-50%, 4px);
+  transform: translate(-50%, 0);
   width: max-content;
   max-width: 200px;
   padding: 6px 10px;
@@ -1329,17 +1825,12 @@ button {
   font-weight: 400;
   line-height: 1.35;
   text-align: center;
-  opacity: 0;
-  visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.15s ease, transform 0.15s ease;
   z-index: 30;
 }
 .has-tooltip:hover::after,
 .has-tooltip:focus-visible::after {
-  opacity: 1;
-  visibility: visible;
-  transform: translate(-50%, 0);
+  display: block;
 }
 
 /* ===== Show more + Pagination ===== */
@@ -2661,6 +3152,20 @@ img.pdp-nutrients-tag-icon {
     display: none;
   }
 
+  .ai-dock {
+    right: 16px;
+    bottom: 16px;
+  }
+  /* The product page pins a buy bar into this corner — 81px tall — so the
+     assistant clears it with the same 24px breathing room it has on desktop,
+     and steps up again once the cart bubble appears between them. */
+  .pdp-body .ai-dock {
+    bottom: 105px;
+  }
+  .pdp-body.cart-filled .ai-dock {
+    bottom: 152px;
+  }
+
   .pdp-sticky-bar {
     display: flex;
     position: fixed;
@@ -2679,7 +3184,9 @@ img.pdp-nutrients-tag-icon {
     font-size: 24px;
     line-height: 1;
   }
-  .pdp-cart-bubble {
+  /* The bubble only exists once something is in the cart — common.js puts
+     .cart-filled on <body> when that happens. */
+  .cart-filled .pdp-cart-bubble {
     display: flex;
     position: fixed;
     right: 16px;
@@ -2694,40 +3201,6 @@ img.pdp-nutrients-tag-icon {
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
     border: none;
     cursor: pointer;
-  }
-  .pdp-cart-icon-wrap {
-    position: relative;
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-  }
-  .pdp-cart-icon-wrap img {
-    width: 24px;
-    height: 24px;
-  }
-  .pdp-cart-badge {
-    position: absolute;
-    top: -8px;
-    left: 12px;
-    width: 16px;
-    height: 16px;
-    border-radius: 100px;
-    background: #ffffff;
-    border: 1.5px solid var(--blue-700);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-proxima);
-    font-weight: 600;
-    font-size: 11px;
-    color: var(--blue-700);
-  }
-  .pdp-cart-total {
-    font-family: var(--font-proxima);
-    font-weight: 600;
-    font-size: 16px;
-    color: #ffffff;
-    white-space: nowrap;
   }
   .pdp-body {
     padding-bottom: 96px;

@@ -45,7 +45,7 @@ function similarCardHtml(product) {
     : "";
 
   return `
-    <a class="pdp-similar-card" href="product.html?id=${product.slug}" style="text-decoration:none;color:inherit">
+    <a class="pdp-similar-card" data-slug="${product.slug}" href="product.html?id=${product.slug}" style="text-decoration:none;color:inherit">
       <div class="pdp-similar-image">
         <img class="photo" src="assets/products/${product.img}.${product.ext || "svg"}" alt="${product.name}" />
         ${badge}
@@ -170,4 +170,20 @@ document.querySelectorAll(".pdp-accordion-toggle").forEach((toggle) => {
 // prototype has no answer for yet.
 document.querySelector("[data-scroll-to='pdp-similar']")?.addEventListener("click", () => {
   document.querySelector(".pdp-similar").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+// Both buy buttons — the one in the details card and the phone's sticky bar —
+// put this product in the cart.
+document.querySelectorAll(".pdp-buy-btn").forEach((button) => {
+  button.addEventListener("click", () => addToCart(product.slug, product.price));
+});
+
+// The plus on a similar-products card adds it instead of following the card's
+// own link to that product.
+document.getElementById("pdp-similar-grid").addEventListener("click", (event) => {
+  const plus = event.target.closest(".pdp-similar-counter");
+  if (!plus) return;
+  event.preventDefault();
+  const picked = PRODUCTS.find((item) => item.slug === plus.closest(".pdp-similar-card").dataset.slug);
+  if (picked) addToCart(picked.slug, picked.price);
 });
